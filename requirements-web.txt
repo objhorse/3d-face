@@ -1,0 +1,9 @@
+# Direct web-service dependencies, observed in the configured environment.
+# This is not the GPU reconstruction environment or a transitive lockfile.
+fastapi==0.124.4
+uvicorn==0.33.0
+SQLAlchemy==2.0.49
+aiosqlite==0.20.0
+python-multipart==0.0.20
+pydantic==2.10.6
+websockets==13.1
