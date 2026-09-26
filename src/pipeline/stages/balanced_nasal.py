@@ -9,7 +9,7 @@ import os
 import shutil
 from pathlib import Path
 
-from run_multiview_nasal_shape_experiment import (
+from src.pipeline.stages.multiview_nasal import (
     run_multiview_nasal_shape_experiment,
 )
 

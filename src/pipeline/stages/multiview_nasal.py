@@ -21,10 +21,10 @@ from typing import Any, Mapping, Sequence
 
 import numpy as np
 
-from run_expression_depth_experiment import (
+from src.pipeline.stages.expression_depth import (
     _export_with_baseline_texture,
 )
-from run_nasal_observation_audit import (
+from src.pipeline.stages.nasal_observations import (
     assert_file_tree_unchanged,
     file_tree_hashes,
     load_baseline_fit_parameters,
@@ -47,7 +47,7 @@ from src.reports.nasal_observation_io import load_nasal_observation_bundle
 from src.reports.nasal_observation_report import read_image_file
 
 
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parents[3]
 
 
 @dataclass(frozen=True)
@@ -1614,7 +1614,7 @@ def _write_viewer(
             dataset_label=dataset_label,
         )
     else:
-        from run_expression_depth_experiment import _write_embedded_compare_viewer
+        from src.pipeline.stages.expression_depth import _write_embedded_compare_viewer
 
         viewer = _write_embedded_compare_viewer(
             template,

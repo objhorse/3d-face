@@ -8,14 +8,14 @@ import shutil
 from pathlib import Path
 from typing import Any
 
-from run_multiview_nasal_shape_experiment import (
+from src.pipeline.stages.multiview_nasal import (
     _load_observation_work_images,
     _sha256_file,
     _validate_embedded_textured_glb,
     _write_viewer,
     build_model_projection_views,
 )
-from run_nasal_base_shape_experiment import (
+from src.pipeline.stages.nasal_base import (
     _load_v4_low_resolution_baseline,
     verify_hash_locked_file,
 )

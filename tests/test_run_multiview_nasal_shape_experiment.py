@@ -19,7 +19,7 @@ import numpy as np
 import pytest
 from PIL import Image
 
-import run_multiview_nasal_shape_experiment as runner
+import src.pipeline.stages.multiview_nasal as runner
 from src.cross_view_geometry import Camera
 from src.geometry.nasal_observations import (
     NasalObservationBundle,

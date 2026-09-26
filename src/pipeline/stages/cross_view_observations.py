@@ -16,15 +16,15 @@ from typing import Any, Mapping, Sequence
 import cv2
 import numpy as np
 
-from run_expression_depth_experiment import _export_with_baseline_texture
-from run_multiview_alar_surface_experiment import _load_a2_low_resolution
-from run_multiview_nasal_shape_experiment import (
+from src.pipeline.stages.expression_depth import _export_with_baseline_texture
+from src.pipeline.stages.alar_surface import _load_a2_low_resolution
+from src.pipeline.stages.multiview_nasal import (
     _subdivide_candidate,
     _validate_embedded_textured_glb,
     _write_viewer,
     build_model_projection_views,
 )
-from run_nasal_observation_audit import (
+from src.pipeline.stages.nasal_observations import (
     _load_capture_images,
     assert_file_tree_unchanged,
     build_undistorted_observation_rig,
@@ -84,11 +84,11 @@ DEFAULT_ROMA_PYTHON = Path(
 DEFAULT_ROMA_TORCH_HOME = Path(
     os.environ.get(
         "FACE3D_ROMA_TORCH_HOME",
-        str(Path(__file__).resolve().parent / "models" / "roma-cache"),
+        str(Path(__file__).resolve().parents[3] / "models" / "roma-cache"),
     )
 )
 DEFAULT_ROMA_WORKER = (
-    Path(__file__).resolve().parent / "src" / "geometry" / "roma_nasal_worker.py"
+    Path(__file__).resolve().parents[3] / "src" / "geometry" / "roma_nasal_worker.py"
 )
 SEMANTIC_TO_RIG_VIEW = {
     "front": "front",

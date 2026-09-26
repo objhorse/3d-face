@@ -6,7 +6,7 @@ from pathlib import Path
 
 import pytest
 
-import run_balanced_nasal_shape_experiment as runner
+import src.pipeline.stages.balanced_nasal as runner
 
 
 def _sha256(payload: bytes) -> str:

@@ -12,8 +12,8 @@ from typing import Any, Iterable
 import cv2
 import numpy as np
 
-from run_multiview_nasal_shape_experiment import _validate_embedded_textured_glb
-from run_nasal_observation_audit import assert_file_tree_unchanged, file_tree_hashes
+from src.pipeline.stages.multiview_nasal import _validate_embedded_textured_glb
+from src.pipeline.stages.nasal_observations import assert_file_tree_unchanged, file_tree_hashes
 from src.appearance.roma_texture_controls import work_pixels_to_letterbox_canvas
 from src.geometry.biharmonic_nasal_surface import (
     BiharmonicNasalConfig,
@@ -462,7 +462,7 @@ def run_biharmonic_nasal_geometry_experiment(
             vendor_root=(
                 Path(viewer_vendor_root).resolve()
                 if viewer_vendor_root is not None
-                else Path(__file__).resolve().parent / "frontend" / "vendor"
+                else Path(__file__).resolve().parents[3] / "frontend" / "vendor"
             ),
             title="captures_20260612_135253: smooth RoMa nasal geometry",
             left_label="Baseline: v8 geometry with accepted v9 texture",

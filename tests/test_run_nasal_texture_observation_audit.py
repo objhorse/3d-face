@@ -7,8 +7,8 @@ import cv2
 import numpy as np
 import pytest
 
-from run_nasal_observation_audit import _load_capture_images
-from run_nasal_texture_observation_audit import (
+from src.pipeline.stages.nasal_observations import _load_capture_images
+from src.pipeline.stages.cross_view_observations import (
     _relative_artifact_paths,
     evaluate_release_a_gate,
     load_locked_v10_surface,
@@ -157,7 +157,7 @@ def test_locked_v10_loader_uses_obj_vertices_and_verifies_lineage(
         encoding="ascii",
     )
     monkeypatch.setattr(
-        "run_nasal_texture_observation_audit._subdivide_candidate",
+        "src.pipeline.stages.cross_view_observations._subdivide_candidate",
         lambda _baseline, _vertices: (
             expected_vertices,
             expected_faces,

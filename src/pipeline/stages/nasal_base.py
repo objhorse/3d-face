@@ -15,7 +15,7 @@ from typing import Any, Mapping
 import cv2
 import numpy as np
 
-from run_multiview_nasal_shape_experiment import (
+from src.pipeline.stages.multiview_nasal import (
     _export_candidate,
     _load_baseline_state,
     _load_observation_work_images,

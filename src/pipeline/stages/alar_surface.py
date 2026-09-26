@@ -13,15 +13,15 @@ from typing import Any, Mapping
 import cv2
 import numpy as np
 
-from run_expression_depth_experiment import _export_with_baseline_texture
-from run_multiview_nasal_shape_experiment import (
+from src.pipeline.stages.expression_depth import _export_with_baseline_texture
+from src.pipeline.stages.multiview_nasal import (
     _load_observation_work_images,
     _subdivide_candidate,
     _validate_embedded_textured_glb,
     _write_viewer,
     build_model_projection_views,
 )
-from run_nasal_base_shape_experiment import (
+from src.pipeline.stages.nasal_base import (
     _load_v4_low_resolution_baseline,
 )
 from src.geometry.alar_surface_basis import (

@@ -12,12 +12,12 @@ from typing import Any
 import cv2
 import numpy as np
 
-from run_absolute_eyelid_texture_experiment import _capture_image_names
-from run_multiview_nasal_shape_experiment import (
+from src.pipeline.stages.eyelid_texture import _capture_image_names
+from src.pipeline.stages.multiview_nasal import (
     _sha256_file,
     _validate_embedded_textured_glb,
 )
-from run_nasal_observation_audit import assert_file_tree_unchanged, file_tree_hashes
+from src.pipeline.stages.nasal_observations import assert_file_tree_unchanged, file_tree_hashes
 from src.appearance.baseline_texture_lock import MeshContract
 from src.reports.offline_glb_compare import write_offline_glb_compare_viewer
 
@@ -86,7 +86,7 @@ def run_roma_nasal_texture_rebake(
     *,
     viewer_vendor_root: str | Path | None = None,
 ) -> Path:
-    from render_calibrated_model_views import _render_view
+    from src.reports.calibrated_model_views import _render_view
     from src import config as cfg
     from src.appearance.nasal_local_texture import (
         build_nasal_uv_alpha,
@@ -256,7 +256,7 @@ def run_roma_nasal_texture_rebake(
             vendor_root=(
                 Path(viewer_vendor_root).resolve()
                 if viewer_vendor_root is not None
-                else Path(__file__).resolve().parent / "frontend" / "vendor"
+                else Path(__file__).resolve().parents[3] / "frontend" / "vendor"
             ),
             title=f"{captures.name}: RoMa v8 geometry texture rebake",
             left_label="Baseline: v8 geometry with inherited texture",

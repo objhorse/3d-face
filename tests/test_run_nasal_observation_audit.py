@@ -6,7 +6,7 @@ from pathlib import Path
 import numpy as np
 import pytest
 
-from run_nasal_observation_audit import (
+from src.pipeline.stages.nasal_observations import (
     assert_file_tree_unchanged,
     build_undistorted_observation_rig,
     file_tree_hashes,

@@ -5,7 +5,7 @@ from pathlib import Path
 
 import pytest
 
-from run_nasal_base_shape_experiment import verify_hash_locked_file
+from src.pipeline.stages.nasal_base import verify_hash_locked_file
 
 
 def _digest(path: Path) -> str:

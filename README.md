@@ -9,7 +9,7 @@ The backend serves the frontend at `/ui/`; a separate frontend server is not nee
 | --- | --- | --- |
 | `run_server.py` | Existing application / default configured pipeline | Legacy entry, not a v12 result guarantee |
 | `run_accepted_server.py` | Explicit c481186 stage integration | Raw-photo full chain is NOT validated |
-| `run_stable_pipeline.py` | Offline stable reconstruction | Separate from the complete v12 chain |
+| `python -m src.cli.stable` | Offline stable reconstruction | Separate from the complete v12 chain |
 
 Do not interpret the internal name `accepted_c481186` as acceptance of a new
 dataset's output. Historical v12 final-stage reproduction used saved upstream
@@ -20,15 +20,18 @@ intermediates. It did not validate reconstruction from fresh photographs.
 - `frontend/`: UI, model viewer, bundled browser dependencies.
 - `src/api/`: HTTP API, database, job execution and progress reporting.
 - `src/pipeline/`: reconstruction orchestration and input validation.
+- `src/pipeline/stages/`: internal stage implementations, not root debug scripts.
+- `src/cli/`: offline command-line entry points.
 - `src/geometry/`, `src/appearance/`, `src/initializers/`: reconstruction algorithms.
 - `config/`: calibration and configuration files.
 - `tests/`: automated regression and contract tests.
 - `tools/`: retained calibration, evaluation and asset utilities.
 - `docs/c481186-application.md`: integration configuration and validation limits.
 
-Some root `run_*_experiment.py` modules are still runtime dependencies of the
-c481186 adapter or other retained modules. They are not disposable debug output.
-They retain their names in this packaging-only cleanup to avoid changing behavior.
+The root contains only the two server launchers. Required former experiment
+modules now live in `src/pipeline/stages/`; algorithm function names and stage
+ordering are preserved. Independent unused experiment entry points are excluded.
+See [the layout record](docs/application-layout.md) for migration and verification.
 
 ## Run Locally
 

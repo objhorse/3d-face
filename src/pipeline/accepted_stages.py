@@ -49,11 +49,11 @@ def run_stage(stage: str, root: Path, calibration: Path) -> None:
                     "DECA fallback to zero expression is not an equivalent reconstruction"
                 )
     elif stage == "projective":
-        sys.argv = ["run_strict_projective_texture_experiment.py", "--capture-dir", str(captures),
+        sys.argv = ["src.pipeline.stages.projective_texture", "--capture-dir", str(captures),
                     "--baseline", str(dirs["baseline"]), "--output", str(target)]
-        runpy.run_module("run_strict_projective_texture_experiment", run_name="__main__")
+        runpy.run_module("src.pipeline.stages.projective_texture", run_name="__main__")
     elif stage == "expression":
-        from run_expression_depth_experiment import _export_depth_safe_geometry, _export_with_baseline_texture
+        from src.pipeline.stages.expression_depth import _export_depth_safe_geometry, _export_with_baseline_texture
         from src.geometry.expression_depth import ExpressionDepthThresholds
         target.mkdir(parents=True)
         report = _export_depth_safe_geometry(source_mesh_dir=dirs["projective"] / "meshes",
@@ -66,36 +66,36 @@ def run_stage(stage: str, root: Path, calibration: Path) -> None:
             texture_path=texture("projective"), output_path=target / "meshes" / "face_same_texture.glb")
         (target / "expression_depth_report.json").write_text(json.dumps(report, indent=2), encoding="utf-8")
     elif stage == "balanced":
-        from run_balanced_nasal_shape_experiment import run_balanced_nasal_shape_experiment
+        from src.pipeline.stages.balanced_nasal import run_balanced_nasal_shape_experiment
         run_balanced_nasal_shape_experiment(captures, dirs["expression"], target,
             rig_calibration=calibration,
             expected_baseline_glb_sha256=sha256(mesh("expression", "face_same_texture.glb")))
     elif stage == "nasal_base":
-        from run_nasal_base_shape_experiment import run_nasal_base_shape_experiment
+        from src.pipeline.stages.nasal_base import run_nasal_base_shape_experiment
         run_nasal_base_shape_experiment(captures, dirs["balanced"], target, rig_calibration=calibration,
             expected_geometry_sha256=sha256(mesh("balanced", "candidate.glb")),
             expected_textured_sha256=sha256(mesh("balanced", "candidate_textured.glb")))
     elif stage == "eyelid_texture":
-        from run_absolute_eyelid_texture_experiment import run_absolute_eyelid_texture_experiment
+        from src.pipeline.stages.eyelid_texture import run_absolute_eyelid_texture_experiment
         run_absolute_eyelid_texture_experiment(captures, dirs["nasal_base"], target,
             expected_obj_sha256=sha256(mesh("nasal_base", "face_mesh.obj")),
             expected_geometry_sha256=sha256(mesh("nasal_base", "candidate.glb")),
             expected_textured_sha256=sha256(mesh("nasal_base", "candidate_textured.glb")))
     elif stage == "nasal_texture":
-        from run_nasal_local_texture_experiment import run_nasal_local_texture_experiment
+        from src.pipeline.stages.nasal_texture import run_nasal_local_texture_experiment
         run_nasal_local_texture_experiment(captures, dirs["eyelid_texture"], target,
             expected_v2_glb_sha256=sha256(mesh("eyelid_texture", "face.glb")),
             expected_v2_texture_sha256=sha256(texture("eyelid_texture")),
             expected_a2_obj_sha256=sha256(mesh("nasal_base", "face_mesh.obj")))
     elif stage == "alar":
-        from run_multiview_alar_surface_experiment import run_multiview_alar_surface_experiment
+        from src.pipeline.stages.alar_surface import run_multiview_alar_surface_experiment
         run_multiview_alar_surface_experiment(captures, dirs["nasal_base"], dirs["nasal_texture"], target,
             rig_calibration=calibration,
             expected_a2_obj_sha256=sha256(mesh("nasal_base", "face_mesh.obj")),
             expected_v2_glb_sha256=sha256(mesh("eyelid_texture", "face.glb")),
             expected_v2_texture_sha256=sha256(texture("eyelid_texture")))
     elif stage == "roma":
-        from run_nasal_texture_observation_audit import run_nasal_texture_observation_audit
+        from src.pipeline.stages.cross_view_observations import run_nasal_texture_observation_audit
         run_nasal_texture_observation_audit(captures, dirs["alar"], target,
             rig_calibration=calibration,
             expected_v10_obj_sha256=sha256(mesh("alar", "face_mesh.obj")),
@@ -105,11 +105,11 @@ def run_stage(stage: str, root: Path, calibration: Path) -> None:
         if report.get("status") != "ready_for_geometry":
             raise RuntimeError("RoMa evidence is insufficient; no baseline fallback will be published")
     elif stage == "roma_texture":
-        from run_roma_nasal_texture_rebake import run_roma_nasal_texture_rebake
+        from src.pipeline.stages.roma_texture import run_roma_nasal_texture_rebake
         run_roma_nasal_texture_rebake(captures, dirs["roma"], target,
                                     viewer_vendor_root=cfg.ROOT / "frontend" / "vendor")
     elif stage == "biharmonic":
-        from run_biharmonic_nasal_geometry_experiment import run_biharmonic_nasal_geometry_experiment
+        from src.pipeline.stages.biharmonic_nasal import run_biharmonic_nasal_geometry_experiment
         run_biharmonic_nasal_geometry_experiment(dirs["roma"], dirs["roma_texture"], dirs["alar"], target,
             support_rings=8, viewer_vendor_root=cfg.ROOT / "frontend" / "vendor")
     else:

@@ -11,18 +11,18 @@ from typing import Any
 import cv2
 import numpy as np
 
-from run_absolute_eyelid_texture_experiment import (
+from src.pipeline.stages.eyelid_texture import (
     _capture_image_names,
     _rig_calibration_from_observation_metadata,
     _write_projection_cameras,
 )
-from run_multiview_nasal_shape_experiment import (
+from src.pipeline.stages.multiview_nasal import (
     _sha256_file,
     _validate_embedded_textured_glb,
     _write_viewer,
     build_model_projection_views,
 )
-from run_nasal_base_shape_experiment import (
+from src.pipeline.stages.nasal_base import (
     _load_v4_low_resolution_baseline,
     verify_hash_locked_file,
 )
@@ -237,7 +237,7 @@ def run_nasal_local_texture_experiment(
         mesh_dir / "face_mesh.obj"
     )
     cameras = load_cameras(mesh_dir / "cameras.json")
-    from render_calibrated_model_views import _render_view
+    from src.reports.calibrated_model_views import _render_view
 
     baseline_reference_rgba, _baseline_reference_depth = _render_view(
         source["paths"]["glb"],

@@ -12,7 +12,7 @@ from src.appearance.baseline_texture_lock import BaselineTextureLock, MeshContra
 from src.reports.offline_glb_compare import write_offline_glb_compare_viewer
 
 
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parents[3]
 COPY_ARTIFACTS = (
     "face_mesh.obj",
     "cameras.json",

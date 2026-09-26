@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from run_biharmonic_nasal_geometry_experiment import _distance_metrics
+from src.pipeline.stages.biharmonic_nasal import _distance_metrics
 
 
 def test_identity_distance_is_measured_inside_the_nasal_support() -> None:
